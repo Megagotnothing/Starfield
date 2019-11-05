@@ -5,15 +5,10 @@ void setup()
 	size(600, 600);
 	frameRate(30);
 	heck = new Particle[100];
-	heck = new OddballParticle[4];
-	for(int i = 0; i < heck.length; i++)
-	{
-		heck[i] = new Particle();
-	}
-
 	for(int i = 0; i < heck.length; i++)
 	{
 		heck[i] = new OddballParticle();
+
 	}
 }
 void draw()
@@ -23,12 +18,10 @@ void draw()
 	{
 		heck[i].move();
 		heck[i].show();
-	}
-
-	for(int i = 0; i < heck.length; i++)
-	{
-		heck[i].move();
-		heck[i].show();
+		if(heck[i].myY < 200)
+		{
+			heck[i] = new Particle();
+		}
 	}
 }
 void mousePressed()
@@ -38,7 +31,7 @@ void mousePressed()
 	{
 		heck[i] = new Particle();
 	}
-	for(int i = 0; i < heck.length; i++)
+	for(int i = 0; i < 4; i++)
 	{
 		heck[i] = new OddballParticle();
 	}
@@ -71,24 +64,32 @@ class Particle
 }
 class OddballParticle extends Particle //inherits from Particle
 {
-	int myX,myY, boundary;
+	int boundary = 200;
 	OddballParticle()
 	{
-		myX = (int)(Math.random()*600);
+		myX = 300; //(int)(Math.random()*600);
 		myY = 600;
+		speed = 5;
 		boundary = 200;
+		//angle = Math.random()*8+Math.PI;
+		
 	}
 
 	void move()
 	{
-		myX += (int)(Math.random()*10-5);
-		myY += 5;
+		myX += (int)(Math.random()*10) - 5;
+		myY -= speed;
+
+		if(myY < boundary)
+		{
+			speed = 0;
+		}
 	}
 
 	void show()
 	{
-		fill(255,0,0);
-		rect(myX, myY, 10, 10);
+		fill(0);
+		rect((float)myX, (float)myY, 10.0, 10.0);
 	}
 }
 
