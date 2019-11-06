@@ -1,10 +1,12 @@
 //your code here
 Particle[] heck;
+int part = 1;
+double thatX = 0;
 void setup()
 {
 	size(600, 600);
 	frameRate(30);
-	heck = new Particle[100];
+	heck = new Particle[1000];
 	for(int i = 0; i < heck.length; i++)
 	{
 		heck[i] = new OddballParticle();
@@ -13,38 +15,44 @@ void setup()
 }
 void draw()
 {
-	background(255);
-	for(int i = 0; i < heck.length; i++)
+	background(0);
+	for(int i = 0; i < part; i++)
 	{
 		heck[i].move();
 		heck[i].show();
-		if(heck[i].myY < 200)
+		if(heck[i].myY < 150 && part != 100)
 		{
-			heck[i] = new Particle();
+			for(int j = 0; j < heck.length; j++)
+			{
+				thatX = heck[0].myX;
+				heck[j] = new Particle();
+				part = 100;
+
+			}
 		}
 	}
+
 }
 void mousePressed()
 {
 	redraw();
+	part = 1;
+	background(0);
 	for(int i = 0; i < heck.length; i++)
 	{
-		heck[i] = new Particle();
-	}
-	for(int i = 0; i < 4; i++)
-	{
 		heck[i] = new OddballParticle();
+
 	}
+
 }
 class Particle
 {
 	double myX,myY,angle,speed;
-	//int speed;
 	Particle()
 	{
-		myX = 300;
-		myY = 300;
-		speed = (int)(Math.random()*10);
+		myX = thatX;
+		myY = 150;
+		speed = (int)(Math.random()*20);
 		angle = Math.random()*2*Math.PI;
 	}
 	void move()
@@ -57,20 +65,21 @@ class Particle
 
 	void show()
 	{
-		fill(0);
-		ellipse((float)myX, (float)myY, 10.0, 2.0);
+		fill((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
+		noStroke();
+		ellipse((float)myX, (float)myY, 10.0, 10.0);
 
 	}
 }
 class OddballParticle extends Particle //inherits from Particle
 {
-	int boundary = 200;
+	int boundary;
 	OddballParticle()
 	{
-		myX = 300; //(int)(Math.random()*600);
+		myX = (int)(Math.random()*450-150);
 		myY = 600;
 		speed = 5;
-		boundary = 200;
+		boundary = 0;
 		//angle = Math.random()*8+Math.PI;
 		
 	}
@@ -78,7 +87,7 @@ class OddballParticle extends Particle //inherits from Particle
 	void move()
 	{
 		myX += (int)(Math.random()*10) - 5;
-		myY -= speed;
+		myY -= Math.random()*speed;
 
 		if(myY < boundary)
 		{
@@ -88,9 +97,10 @@ class OddballParticle extends Particle //inherits from Particle
 
 	void show()
 	{
-		fill(0);
+		fill((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
 		rect((float)myX, (float)myY, 10.0, 10.0);
 	}
+
 }
 
 
